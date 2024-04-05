@@ -5,6 +5,7 @@ import com.lapperapp.laper.ui.NewHome.SelectCategorymodel
 data class GetRequestModel(val _id:String,
                            val requiredTech:ArrayList<SelectCategorymodel>,
                            val requestTime:String,
+                           val status:String,
                            val accepted:Boolean,
                            val clientId:String,
                            val expertId:String,
