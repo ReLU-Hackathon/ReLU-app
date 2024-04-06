@@ -21,6 +21,8 @@ import com.google.firebase.ktx.Firebase
 import com.laperapp.laper.ResponseBodyApi
 import com.laperapp.laper.api.RetrofitClient
 import com.lapperapp.laper.Categories.ViewAllExpertsActivity
+import com.lapperapp.laper.Data.ExpertBase
+import com.lapperapp.laper.Data.ExpertModel
 import com.lapperapp.laper.Data.FilterModel
 import com.lapperapp.laper.PSRequest.FetchRequestModel
 import com.lapperapp.laper.R
@@ -90,8 +92,7 @@ class NewDashboardFragment(
         }
 
         fetchSentRequest()
-
-//        fetchMyRequests()
+        fetchAvailableExpert()
 
         return view
     }
@@ -107,6 +108,86 @@ class NewDashboardFragment(
         userRef.document(auth.uid.toString()).update("dashboardNotification", false)
         bottomBar.clearBadgeAtTab(tabToAddBadgeAt)
     }
+
+    fun fetchAvailableExpert() {
+        // Define your FilterModel
+        val filter = FilterModel(field = "clientId", value = "user@gmail.com")
+        val ret = arrayOf(SelectCategorymodel("Python", "", "123456"))
+        // Obtain an instance of ApiInterface
+        val apiService = RetrofitClient.getClient()
+
+        val filterexp = FilterModel(field = "expertId", value = "expert@gmail.com")
+
+
+        apiService.fetchRequest(filter).enqueue(object : retrofit2.Callback<FetchRequestModel> {
+            override fun onResponse(
+                call: retrofit2.Call<FetchRequestModel>,
+                response: retrofit2.Response<FetchRequestModel>
+            ) {
+                if (response.isSuccessful) {
+                    val fetchRequestModel: FetchRequestModel? = response.body()
+                    val req = fetchRequestModel?.request
+                    if (req != null) {
+                        for (model in req) {
+                            if (model.status.equals("accepted")) {
+                                if (response.isSuccessful) {
+                                    availableExpertModel.add(
+                                        NewAvailableExpertModel(
+                                            model.expertId,
+                                            "",
+                                            "",
+                                            model.requestTime.toLong(),
+                                            model.clientId,
+                                            model.requestId,
+                                            model.problemStatement
+                                        )
+                                    )
+                                    uReqIds.add("")
+                                    availableExpertAdapter.notifyDataSetChanged()
+
+                                } else {
+                                    val errorMessage = "Response unsuccessful: ${response.code()}"
+                                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    val errorMessage = "Response unsuccessful: ${response.code()}"
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<FetchRequestModel>, t: Throwable) {
+                Toast.makeText(context, "Failed ${t.message.toString()}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+//    fun getExpert() {
+//        val filter = FilterModel(field = "expertId", value = "expert@gmail.com")
+//        val apiService = RetrofitClient.getClient()
+//        apiService.getExpertData(filter).enqueue(object : retrofit2.Callback<ExpertModel> {
+//            override fun onResponse(
+//                call: retrofit2.Call<ExpertModel>,
+//                response: retrofit2.Response<ExpertModel>
+//            ) {
+//                if (response.isSuccessful) {
+//                    val fetchRequestModel: ExpertModel? = response.body()
+//                    val req = fetchRequestModel?.req
+//
+//
+//                } else {
+//                    val errorMessage = "Response unsuccessful: ${response.code()}"
+//                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//            override fun onFailure(call: retrofit2.Call<ExpertModel>, t: Throwable) {
+//                Toast.makeText(context, "Failed ${t.message.toString()}", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
 
     fun fetchSentRequest() {
         // Define your FilterModel
@@ -127,47 +208,23 @@ class NewDashboardFragment(
                     val req = fetchRequestModel?.request
                     if (req != null) {
                         for (model in req) {
-                            reqSentModelModel.add(
-                                NewRequestSentModel(
-                                    model.requestTime.toLong(),
-                                    "all",
-                                    model.requestId,
-                                    "",
-                                    "",
-                                    model.problemStatement,
-                                    ret
+                            if (!model.status.equals("accepted")) {
+                                reqSentModelModel.add(
+                                    NewRequestSentModel(
+                                        model.requestTime.toLong(),
+                                        "all",
+                                        model.requestId,
+                                        "",
+                                        "",
+                                        model.problemStatement,
+                                        ret
+                                    )
                                 )
-                            )
-//                                ResponseBodyApi.getExpertResponseBody(
-//                                    requireContext(),
-//                                    FilterModel("expertId", model.expertId),
-//                                    onResponse = { exres ->
-//                                        val expertName = exres?.expert?.get(0)?.name.toString()
-//                                        val expertImageUrl =
-//                                            exres?.expert?.get(0)?.userImageUrl.toString()
-//
-//                                        reqSentModelModel.add(
-//                                            NewRequestSentModel(
-//                                                model.requestTime.toLong(),
-//                                                model.expertId,
-//                                                model.requestId,
-//                                                expertName,
-//                                                expertImageUrl,
-//                                                model.problemStatement,
-//                                                ret
-//                                            )
-//                                        )
-//                                    },
-//                                    onFailure = { t ->
-//                                        Toast.makeText(context, t.message, Toast.LENGTH_SHORT)
-//                                            .show()
-//                                    })
-                            uReqIds.add("")
-                            reqSentAdapter.notifyDataSetChanged()
+                                uReqIds.add("")
+                                reqSentAdapter.notifyDataSetChanged()
+                            }
                         }
                     }
-
-                    Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show()
                 } else {
                     val errorMessage = "Response unsuccessful: ${response.code()}"
                     Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()

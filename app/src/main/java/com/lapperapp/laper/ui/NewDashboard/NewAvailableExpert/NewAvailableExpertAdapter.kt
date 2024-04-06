@@ -44,9 +44,9 @@ class NewAvailableExpertAdapter(private val mList: List<NewAvailableExpertModel>
         val currentDate = timeAgo.getTimeAgo(Date(model.date), context)
         holder.reqDate.text = currentDate
 
-        holder.reqName.text = model.name
         holder.reqPs.text = str(model.ps)
-        Glide.with(context).load(model.imageUrl).into(holder.reqImage)
+//        Glide.with(context).load(model.imageUrl).into(holder.reqImage)
+//        holder.reqName.text = model.name
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)
