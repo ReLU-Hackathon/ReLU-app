@@ -38,6 +38,7 @@ class LogActivity : AppCompatActivity() {
                 if (token != null) {
                     val editor: SharedPreferences.Editor = sharedPreferences.edit()
                     editor.putString("token", token)
+                    editor.putString("email", email.text.toString())
                     editor.apply()
                     Toast.makeText(baseContext, "welcome back", Toast.LENGTH_SHORT).show()
                     val intent = Intent(baseContext, MainActivity::class.java)

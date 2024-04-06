@@ -47,7 +47,6 @@ class NewAvailableExpertAdapter(private val mList: List<NewAvailableExpertModel>
         holder.reqPs.text = str(model.ps)
 //        Glide.with(context).load(model.imageUrl).into(holder.reqImage)
 //        holder.reqName.text = model.name
-
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)
             intent.putExtra("userId", model.userId)

@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -19,6 +18,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.laperapp.laper.ResponseBodyApi
+import com.lapperapp.laper.Anonimity.AnonimityChatActivity
 import com.lapperapp.laper.BuildConfig
 import com.lapperapp.laper.Categories.*
 import com.lapperapp.laper.Data.UserUpdateModel
@@ -33,6 +33,7 @@ class NewHomeFragment : Fragment() {
     private lateinit var cameraCard: CardView
     private lateinit var typeCard: CardView
     private lateinit var exploreCard: CardView
+    private lateinit var anonymousCard: CardView
     private lateinit var title: TextView
 
     var imagePicker: ImageView? = null
@@ -47,6 +48,7 @@ class NewHomeFragment : Fragment() {
         cameraCard = view.findViewById(R.id.home_take_photo)
         typeCard = view.findViewById(R.id.home_type_question)
         exploreCard = view.findViewById(R.id.home_explore)
+        anonymousCard = view.findViewById(R.id.home_anonimity)
         title = view.findViewById(R.id.home_title)
 
         imagePicker = view.findViewById(R.id.image_picker)
@@ -83,6 +85,11 @@ class NewHomeFragment : Fragment() {
         typeCard.setOnClickListener { v ->
             val explore = Intent(context, TypeQuestActivity::class.java)
             explore.putExtra("image_uri", "");
+            startActivity(explore)
+        }
+
+        anonymousCard.setOnClickListener { v ->
+            val explore = Intent(context, AnonimityChatActivity::class.java)
             startActivity(explore)
         }
 

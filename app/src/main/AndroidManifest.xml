@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Laper"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Anonimity.AnonimityChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".Auth.GoogleAuthActivity"
             android:exported="true" />
         <activity

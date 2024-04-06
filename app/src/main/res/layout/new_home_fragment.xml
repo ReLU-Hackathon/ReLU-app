@@ -146,6 +146,40 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/home_anonimity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="55sp"
+        android:layout_marginVertical="10sp"
+        android:backgroundTint="@color/blue_dark"
+        app:cardCornerRadius="10sp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5sp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:src="@drawable/anonymous" />
+
+            <TextView
+                style="@style/NormalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10sp"
+                android:gravity="center"
+                android:text="Anonymous Help"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/home_explore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

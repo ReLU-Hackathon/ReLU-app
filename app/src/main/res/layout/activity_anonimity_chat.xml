@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Anonimity.AnonimityChatActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/anon_chat_app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60sp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10sp">
+
+            <ImageView
+                android:id="@+id/anon_back_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="10sp"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
+
+            <TextView
+                android:id="@+id/anon_chat_user_name_app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Anonymous Chat"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/anon_user_chat_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_done_24"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/anon_chat_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/anon_message_box"
+        android:layout_below="@+id/anon_chat_app_bar_layout"
+        android:layout_marginTop="0dp"
+        android:background="@color/chat_background"
+        android:paddingBottom="10dp" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/anon_no_message_lotti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/nomessage" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/anon_message_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="3sp"
+        android:background="@color/white"
+        android:elevation="20dp"
+        app:cardCornerRadius="10sp">
+
+        <TextView
+            android:id="@+id/anon_freeze_text_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10sp"
+            android:text="Request Expert to continue the conversation"
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/anon_chat_relative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2sp">
+
+
+            <EditText
+                android:id="@+id/anon_anon_text_message_chat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/round"
+                android:hint="write message..."
+                android:maxHeight="150dp"
+                android:padding="10dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/black2"
+                android:textColorHint="@color/gray" />
+
+            <ImageView
+                android:id="@+id/anon_send_msg_btn_chat"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_send_24"
+                app:tint="@color/primary_color" />
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>
