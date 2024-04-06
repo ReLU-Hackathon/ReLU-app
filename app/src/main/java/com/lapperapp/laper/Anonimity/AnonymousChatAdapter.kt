@@ -4,18 +4,23 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.lapperapp.laper.R
 import com.lapperapp.laper.ui.chats.Chat.ChatModel
 import com.lapperapp.laper.utils.TimeAgo
+import java.util.Base64
 import java.util.Date
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
 
 class AnonymousChatAdapter(private val mList: List<ChatModel>, private val receiverUserId: String) :
     RecyclerView.Adapter<AnonymousChatAdapter.ViewHolder>() {
@@ -27,6 +32,7 @@ class AnonymousChatAdapter(private val mList: List<ChatModel>, private val recei
         return ViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
@@ -36,8 +42,8 @@ class AnonymousChatAdapter(private val mList: List<ChatModel>, private val recei
         val sharedPreferences = context.getSharedPreferences("credential", Context.MODE_PRIVATE)
         val senderId = sharedPreferences.getString("email", null)
 
-//        holder.anonId.text = model.reciverId
 
+        holder.anonId.text = model.reciverId
         if (model.reciverId.trim().equals(senderId)) {
             // SENDER USER
             holder.sendLinear.visibility = View.VISIBLE

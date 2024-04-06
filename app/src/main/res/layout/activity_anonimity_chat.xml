@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="Anonymous Chat"
+                android:layout_toRightOf="@id/anon_back_chat"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
