@@ -31,7 +31,14 @@ class AnonymousChatAdapter(private val mList: List<ChatModel>, private val recei
 
         return ViewHolder(view)
     }
-
+    fun extractNameFromEmail(email: String): String {
+        val atIndex = email.indexOf('@')
+        return if (atIndex != -1) {
+            email.substring(0, atIndex)
+        } else {
+            email // Return original email if '@' symbol is not found
+        }
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -43,7 +50,7 @@ class AnonymousChatAdapter(private val mList: List<ChatModel>, private val recei
         val senderId = sharedPreferences.getString("email", null)
 
 
-        holder.anonId.text = model.reciverId
+        holder.anonId.text = extractNameFromEmail(model.reciverId)
         if (model.reciverId.trim().equals(senderId)) {
             // SENDER USER
             holder.sendLinear.visibility = View.VISIBLE

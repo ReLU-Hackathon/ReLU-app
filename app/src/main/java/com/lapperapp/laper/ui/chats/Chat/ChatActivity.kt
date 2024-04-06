@@ -29,7 +29,14 @@ import com.lapperapp.laper.User.ProfileActivity
 import com.lapperapp.laper.service.PushNotification
 import de.hdodenhof.circleimageview.CircleImageView
 
-
+fun extractNameFromEmail(email: String): String {
+    val atIndex = email.indexOf('@')
+    return if (atIndex != -1) {
+        email.substring(0, atIndex)
+    } else {
+        email // Return original email if '@' symbol is not found
+    }
+}
 class ChatActivity : AppCompatActivity() {
     private val db = Firebase.firestore
     private var auth = FirebaseAuth.getInstance()
@@ -78,7 +85,7 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(baseContext)
         chatModel = ArrayList()
 
-        receiverUserId = intent.getStringExtra("userId").toString()
+        receiverUserId = extractNameFromEmail(intent.getStringExtra("userId").toString())
         freeze = intent.getBooleanExtra("freeze",false)
 
         if (freeze){
