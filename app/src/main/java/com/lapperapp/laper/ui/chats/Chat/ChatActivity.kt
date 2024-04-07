@@ -54,6 +54,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var msgEdit: EditText
     private lateinit var sendBtn: ImageView
     private lateinit var receiverUserId: String
+    private lateinit var senderUserId: String
     private lateinit var userImage: CircleImageView
     private lateinit var userName: TextView
     private lateinit var appBar: AppBarLayout
@@ -85,7 +86,10 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(baseContext)
         chatModel = ArrayList()
 
-        receiverUserId = extractNameFromEmail(intent.getStringExtra("userId").toString())
+//        receiverUserId = extractNameFromEmail(intent.getStringExtra("userId").toString())
+        receiverUserId = "expert"
+        senderUserId = "user"
+
         freeze = intent.getBooleanExtra("freeze",false)
 
         if (freeze){
@@ -131,7 +135,7 @@ class ChatActivity : AppCompatActivity() {
             "lastChatDate" to System.currentTimeMillis()
         )
 
-        userChatListRef.child(auth.uid.toString())
+        userChatListRef.child(senderUserId)
             .child(receiverUserId)
             .setValue(userChat)
     }
@@ -140,15 +144,15 @@ class ChatActivity : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance().reference
         val updates = HashMap<String, Any>()
         updates["read"] = true
-        database.child("chats").child(auth.uid.toString())
+        database.child("chats").child(senderUserId)
             .child(receiverUserId).child(id).updateChildren(updates)
         database.child("chats").child(receiverUserId)
-            .child(auth.uid.toString()).child(id).updateChildren(updates)
+            .child(senderUserId).child(id).updateChildren(updates)
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun fetchMessages() {
-        chatRef.child(auth.uid.toString())
+        chatRef.child(senderUserId)
             .child(receiverUserId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -164,9 +168,9 @@ class ChatActivity : AppCompatActivity() {
                             chatModel.add(ChatModel(message, sendDate, receiverId, type))
                             chatAdapter.notifyDataSetChanged()
                             messageIdList.add(child.key.toString())
-                            if (receiverId.equals(auth.uid.toString())){
-                                markedAsRead(child.key.toString())
-                            }
+//                            if (receiverId.equals(senderUserId)){
+//                                markedAsRead(senderUserId)
+//                            }
                         }
                     }
                     chatRecyclerView.layoutManager?.scrollToPosition(snapshot.children.count() - 1)
@@ -195,7 +199,7 @@ class ChatActivity : AppCompatActivity() {
             "type" to 0,
             "read" to false
         )
-        chatRef.child(auth.uid.toString())
+        chatRef.child("user")
             .child(receiverUserId)
             .child(childId).setValue(senderHashMap)
 
@@ -207,7 +211,7 @@ class ChatActivity : AppCompatActivity() {
             "read" to false
         )
         chatRef.child(receiverUserId)
-            .child(auth.uid.toString())
+            .child(senderUserId)
             .child(childId).setValue(receiverHashMap)
 
         msgEdit.setText("")
@@ -216,12 +220,12 @@ class ChatActivity : AppCompatActivity() {
             "lastMessage" to msg
         )
 
-        userChatListRef.child(auth.uid.toString())
+        userChatListRef.child(senderUserId)
             .child(receiverUserId)
             .setValue(userHash)
 
         userChatListRef.child(receiverUserId)
-            .child(auth.uid.toString())
+            .child(senderUserId)
             .setValue(userHash)
 
         chatRecyclerView.layoutManager?.scrollToPosition(chatAdapter.itemCount - 1)
