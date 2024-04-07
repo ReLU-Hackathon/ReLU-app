@@ -36,19 +36,18 @@ class ChatAdapter(private val mList: List<ChatModel>, private val receiverUserId
 
 
         if (model.reciverId.trim().equals("expert")) {
-            // RECEIVER USER
-            holder.recLinear.visibility = View.VISIBLE
-            holder.recText.text = model.text
-            holder.recDate.text = currentDate
-
-            holder.sendLinear.visibility = View.GONE
-        } else {
             // SENDER USER
             holder.sendLinear.visibility = View.VISIBLE
             holder.sendText.text = model.text
             holder.sendDate.text = currentDate
 
             holder.recLinear.visibility = View.GONE
+        } else {
+            // RECEIVER USER
+            holder.recLinear.visibility = View.VISIBLE
+            holder.recText.text = model.text
+            holder.recDate.text = currentDate
+            holder.sendLinear.visibility = View.GONE
         }
         holder.itemView.setOnLongClickListener{
             val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
